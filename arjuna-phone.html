@@ -951,7 +951,9 @@ function resetComposer() {
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const caret = '<span class="caret"></span>';
 function showField(t) { $("#field").innerHTML = esc(t) + caret; $("#send").classList.toggle("on", t.length > 0); }
-function kbUp() { $("#kb").classList.add("on"); $("#field").classList.add("typing"); showField(""); }
+/* 키보드가 올라오면 실제 폰처럼 대화 맨 아래(마지막 메시지)가 입력창 위에 보이게 */
+function stickBottom() { let n = 0; const iv = setInterval(() => { const sc = $("#chat-scroll"); sc.scrollTop = sc.scrollHeight; if (++n > 20) clearInterval(iv); }, 40); }
+function kbUp() { $("#kb").classList.add("on"); $("#field").classList.add("typing"); showField(""); stickBottom(); }
 function kbDown() { $("#kb").classList.remove("on"); resetComposer(); }
 /* 한 글자씩 치기. slow면 머뭇거리면서 */
 async function typeText(text, slow) {
